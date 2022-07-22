@@ -104,28 +104,28 @@ for File in os.listdir('cascade_outputs/'):
 	element = b[-3] + b[-2]
 	#print('element = ' + element)
 
-	#creates new file with population values
-	#newfile = open('test_output_files/' + filename + '.txt', 'w+')
-	#newfile.write(element + ' Z = ' + zvalue)
-	#newfile.write('\n')
+	creates new file with population values
+	newfile = open('test_output_files/' + filename + '.txt', 'w+')
+	newfile.write(element + ' Z = ' + zvalue)
+	newfile.write('\n')
 
-	#n = maxnvalue
-	#for i in plist:
-		#l = 0
-	#	newfile.write('n = ')
-	#	newfile.write(str(n) + ':')
-	#	newfile.write('\n')
-	#	for j in i:
-	#		newfile.write('l = ')
-	#		newfile.write(str(l))
-	#		newfile.write(' population = ')
-	#		newfile.write('{:e}'.format(j))
-	#		newfile.write('\n')
-	#		l += 1
-	#		
-	#	n -= 1
+	n = maxnvalue
+	for i in plist:
+		l = 0
+		newfile.write('n = ')
+		newfile.write(str(n) + ':')
+		newfile.write('\n')
+		for j in i:
+			newfile.write('l = ')
+			newfile.write(str(l))
+			newfile.write(' population = ')
+			newfile.write('{:e}'.format(j))
+			newfile.write('\n')
+			l += 1
+			
+		n -= 1
 
-	#newfile.close()
+	newfile.close()
 
 	def cumulative(func):
 		count = 0
@@ -157,42 +157,42 @@ for File in os.listdir('cascade_outputs/'):
 	plt.ylabel('n')
 	plt.title('Muonic ' + filename + ' cascade dist')
 	plt.colorbar()
-	#plt.savefig('plots/cascades/' + filename +'_cascade_plot.png')
-	#plt.show()
+	plt.savefig('plots/cascades/' + filename +'_cascade_plot.png')
+	plt.show()
 	
-	#if File.startswith('transfer'):
-		#transferpop2[int(zvalue)] = sum(plist[-2])
-		#transferpop3[int(zvalue)]= sum(plist[-3])
+	if File.startswith('transfer'):
+		transferpop2[int(zvalue)] = sum(plist[-2])
+		transferpop3[int(zvalue)]= sum(plist[-3])
 	
-	#if File.startswith('stat'):
-		#statpop2[int(zvalue)] = sum(plist[-2])
-		#statpop3[int(zvalue)] = sum(plist[-3])
+	if File.startswith('stat'):
+		statpop2[int(zvalue)] = sum(plist[-2])
+		statpop3[int(zvalue)] = sum(plist[-3])
 		
 
-#plt.clf()
-#plt.scatter(transferpop2.keys(), transferpop2.values())
-#plt.title('transfer 2 population')
-#plt.savefig('test_pop_plots/transfer_2_pop')
-#plt.show()
+plt.clf()
+plt.scatter(transferpop2.keys(), transferpop2.values())
+plt.title('transfer 2 population')
+plt.savefig('test_pop_plots/transfer_2_pop')
+plt.show()
 
-#plt.clf()
-#plt.scatter(transferpop3.keys(), transferpop3.values())
-#plt.title('transfer 3 population')
-#plt.savefig('test_pop_plots/transfer_3_pop')
-#plt.show()
+plt.clf()
+plt.scatter(transferpop3.keys(), transferpop3.values())
+plt.title('transfer 3 population')
+plt.savefig('test_pop_plots/transfer_3_pop')
+plt.show()
 
-#plt.clf()
-#plt.scatter(statpop2.keys(), statpop2.values())
-#plt.title('stat 2 population')
-#plt.savefig('test_pop_plots/stat_2_pop')
-#plt.show()
+plt.clf()
+plt.scatter(statpop2.keys(), statpop2.values())
+plt.title('stat 2 population')
+plt.savefig('test_pop_plots/stat_2_pop')
+plt.show()
 
-#plt.clf()
-#plt.scatter(statpop3.keys(), statpop3.values())
-#plt.title('stat 3 population')
-#plt.savefig('test_pop_plots/stat_3_pop')
-#plt.show()
+plt.clf()
+plt.scatter(statpop3.keys(), statpop3.values())
+plt.title('stat 3 population')
+plt.savefig('test_pop_plots/stat_3_pop')
+plt.show()
 
-#print(transferpop2.values())
-#print(transferpop2.keys())
+print(transferpop2.values())
+print(transferpop2.keys())
  

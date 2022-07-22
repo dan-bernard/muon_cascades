@@ -77,18 +77,18 @@ y = []
 
 print(len(functions))
 
-#for i in range(200000): #generates cascade plot
-	#n = int(np.random.random()*10)+1
-	#x.append(cumulative(functions[n-1]))
-	#y.append(n)
+for i in range(200000): #generates cascade plot
+	n = int(np.random.random()*10)+1
+	x.append(cumulative(functions[n-1]))
+	y.append(n)
 	
-#plt.clf()
-#plt.hist2d(x,y)
-#plt.xlabel('l')
-#plt.ylabel('n')
-#plt.title('Theoretical dist for Z = ' + str(zvalue))
-#plt.colorbar()
-#plt.show()
+plt.clf()
+plt.hist2d(x,y)
+plt.xlabel('l')
+plt.ylabel('n')
+plt.title('Theoretical dist for Z = ' + str(zvalue))
+plt.colorbar()
+plt.show()
 
 
 
