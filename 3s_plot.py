@@ -33,7 +33,7 @@ pop3s['name'] = '3s'
 
 
 def intensity(filename):
-	text = open('intensities/stat/' + filename)
+	text = open('intensities/transfer/' + filename)
 	content = text.readlines()
 	text.close()
 
@@ -99,30 +99,60 @@ def intensity(filename):
 			int3d1s[z] += float(line[7])
 			pop3p[z] += float(line[6])
 
-for File in os.listdir('intensities/stat/'):
+for File in os.listdir('intensities/transfer'):
 	print('processing file ' + File)
 	intensity(File)
 
 lists = [int3s2p, int3d2p, int2s2p, int3p2s, int3d2s, int2p1s, int3p1s, int3d1s]
 
+
 for i in lists:
 	title = i['name']
 	del i['name']
+	#print(i)
+	#z = list(i.keys())
+	#values = list(i.values())
+	#print(i)
+	#print(values)
+	#print(z)
+	#print(len(values))
+	#print(values)
+	# 
+	#for j in range(len(values)):
+		#print(j)
+		#print(values[j])
+		#if values[j] == 0:
+			#z.remove([j])
+			#print('yes')
+	#
+	#values = [i for i in values if i != 0]
+	#print(values)
+	
+	
+	
 	plt.clf()
 	plt.title(title + ' intensity')
-	plt.scatter(i.keys(), i.values())
-	#plt.savefig('test_plots/intensity/stat/' + title + '_stat_intensities')
-	#plt.show()
+	plt.scatter(i.keys(),i.values())
+	# plt.scatter(z, values)
+	# plt.savefig('plots/intensity/stat/' + title + '_stat_intensities')
+	plt.show()
 
 
 poplist = [pop2s, pop2p, pop3d, pop3p, pop3s]
 
-for i in poplist:
-	title = i['name']
-	del i['name']
-	plt.clf()
-	plt.title(title + ' population')
-	plt.scatter(i.keys(), i.values())
-	#plt.savefig('test_plots/intensity/stat/' + title + '_stat_population')
+#for i in poplist:
+	#title = i['name']
+	#del i['name']
+	#plt.clf()
+	#plt.title(title + ' population')
+	#plt.scatter(i.keys(), i.values())
+	#plt.savefig('test_plots/intensity/stat/NEW' + title + '_stat_population')
 	#plt.show()
-	print(i.keys())
+	#print(i.keys())
+
+
+
+
+
+
+
