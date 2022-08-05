@@ -7,17 +7,11 @@ import os
 
 Z = []
 
-transferpop2 = {}
-transferpop3 = {}
-statpop2 = {}
-statpop3 = {}
-
-
 def findline(phrase, files):
-		with open(files) as f:
-			for i, line in enumerate(f,1):
-				if phrase in line:
-					return i
+	with open(files) as f:
+		for i, line in enumerate(f,1):
+			if phrase in line:
+				return i
 
 #loops over every file in cascade_outputs
 for File in os.listdir('cascade_outputs/'):
@@ -82,14 +76,11 @@ for File in os.listdir('cascade_outputs/'):
 		v += (maxnvalue+1)-j
 		plist.append(row)
 		
-	#pop2 = sum(plist[-2])
-	#pop3 = sum(plist[-3])
-		
-	#normalizes data	
-	#for i in range(len(plist)):
-		#norm = sum(plist[i])
-		#for j in range(len(plist[i])):
-			#plist[i][j] /= norm
+	#normalizes data
+	for i in range(len(plist)):
+		norm = sum(plist[i])
+		for j in range(len(plist[i])):
+			plist[i][j] /= norm
 
 	#gets Z value
 	zline = findline('INPUT CARD NO.  4', out_file) -1
@@ -127,72 +118,35 @@ for File in os.listdir('cascade_outputs/'):
 
 	# newfile.close()
 
-	def cumulative(func):
+	l = maxnvalue*[i for i in range(maxnvalue)]
+	n = []
+	for i in range(1,maxnvalue+1):
+		for j in range(maxnvalue):
+			n.append(maxnvalue+1-i)
+
+	# print(l)
+	# print(n)
+
+	weights = []
+
+	for arr in plist:
 		count = 0
-		r = np.random.random()
-		while r >0:
-			r -= func(count)
+		while count < maxnvalue:
+			if count >= len(arr):
+				weights.append(0)
+
+			else:
+				weights.append(arr[count])
+
 			count += 1
-		return count
-		
-	#appends functions to list
-	lambdas = []
 
-	for i in range(len(plist)):
-		f = (lambda l, n=i:(plist[n][l] if l<len(plist[n]) else 0))
-		lambdas.append(f)
-		
-	x = []
-	y = []
+	# print(weights)
 
-	#creates the plot and saves it as png
-	for i in range(500000):
-		n = int(np.random.random() * len(lambdas))+1
-		x.append(cumulative(lambdas[n-1]))
-		y.append(maxnvalue-n+1)
-	
-	plt.clf()	
-	plt.hist2d(x,y, bins = maxnvalue, density = True)
+	plt.clf()
+	plt.hist2d(l,n, bins = maxnvalue, weights = weights)
+	plt.title('Muonic ' + filename + ' cascade')
 	plt.xlabel('l')
 	plt.ylabel('n')
-	plt.title('Muonic ' + filename + ' cascade dist')
 	plt.colorbar()
-	plt.savefig('plots/cascades/' + filename +'_cascade_plot.png')
+	plt.savefig('plots/cascades/' + filename + '_cascade_plot.png')
 	plt.show()
-	
-	# if File.startswith('transfer'):
-	# 	transferpop2[int(zvalue)] = sum(plist[-2])
-	# 	transferpop3[int(zvalue)]= sum(plist[-3])
-	
-	# if File.startswith('stat'):
-	# 	statpop2[int(zvalue)] = sum(plist[-2])
-	# 	statpop3[int(zvalue)] = sum(plist[-3])
-		
-
-# plt.clf()
-# plt.scatter(transferpop2.keys(), transferpop2.values())
-# plt.title('transfer 2 population')
-# plt.savefig('test_pop_plots/transfer_2_pop')
-# plt.show()
-
-# plt.clf()
-# plt.scatter(transferpop3.keys(), transferpop3.values())
-# plt.title('transfer 3 population')
-# plt.savefig('test_pop_plots/transfer_3_pop')
-# plt.show()
-
-# plt.clf()
-# plt.scatter(statpop2.keys(), statpop2.values())
-# plt.title('stat 2 population')
-# plt.savefig('test_pop_plots/stat_2_pop')
-# plt.show()
-
-# plt.clf()
-# plt.scatter(statpop3.keys(), statpop3.values())
-# plt.title('stat 3 population')
-# plt.savefig('test_pop_plots/stat_3_pop')
-# plt.show()
-
-# print(transferpop2.values())
-# print(transferpop2.keys())
- 

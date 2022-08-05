@@ -73,39 +73,31 @@ def intensity(filename):
 		if initial == 32 and final == 10: #3d-1s
 			int3d1s[z] += float(line[7])
 
+def plot(intensity):
+	title = intensity['name']
+	del intensity['name']
+
+	delete = []
+
+	for i in intensity:
+		if intensity[i] == 0:
+			delete.append(i)
+
+	for i in delete:
+		del intensity[i]
+
+	plt.clf()
+	plt.title(title + 'intensity')
+	plt.scatter(intensity.keys(), int3d2p.values())
+	plt.savefig('plots/intensity/stat/' + title + '_stat_intensities')
+	plt.show()
+
 for File in os.listdir('intensities/transfer'):
 	print('processing file ' + File)
 	intensity(File)
 
-#def plot(intensity):
-	# title = i['name']
-	# del i['name']
-	# plt.clf()
-	# plt.title(title + 'intensity')
-	# plt.scatter(i.keys(), i.values())
-	# # plt.savefig('plots/intensity/stat/' + title + '_stat_intensities')
-	# plt.show()
-
-
 dicts = [int3s2p, int3d2p, int2s2p, int3p2s, int3d2s, int2p1s, int3p1s, int3d1s]
 
-
-for i in dicts:
-	title = i['name']
-	del i['name']
-	
-	delete = []
-
-	for j in i:
-		if i[j] == 0:
-			delete.append(j)
-
-	for j in delete:
-		del i[j]
-	
-	plt.clf()
-	plt.title(title + ' intensity')
-	plt.scatter(i.keys(),i.values())
-	# plt.savefig('plots/intensity/stat/' + title + '_stat_intensities')
-	plt.show()
+for d in Dicts:
+	plot(d)
 
