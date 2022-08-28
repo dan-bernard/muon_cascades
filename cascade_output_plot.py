@@ -1,8 +1,10 @@
 #reads output file from cascade and writes new file with population values and cascade plot
 #must run with python3.4
 
-import numpy as np
+
+#~ import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 
 Z = []
@@ -12,10 +14,12 @@ def findline(phrase, files):
 		for i, line in enumerate(f,1):
 			if phrase in line:
 				return i
+				
+file_location = 'cascade_outputs/full_shell/'
 
 #loops over every file in cascade_outputs
-for File in os.listdir('cascade_outputs/'):
-	out_file = 'cascade_outputs/' + File
+for File in os.listdir(file_location):
+	out_file = file_location + File
 	#print(File)
 	name = ""
 	filename = name.join(list(File))[:-4]
@@ -28,7 +32,7 @@ for File in os.listdir('cascade_outputs/'):
 	#gets maximum n value
 	nmx = findline('NMX', out_file)-1
 	maxnvalue = int(content[nmx].split()[6])
-	#print('max n = ' + str(maxnvalue))
+	#~ print('max n = ' + str(maxnvalue))
 	#print(content[nmx].split())
 									
 	start = findline(' ' + str(maxnvalue) + ', 0', out_file)
@@ -75,12 +79,14 @@ for File in os.listdir('cascade_outputs/'):
 			row.append(pvalues[i])
 		v += (maxnvalue+1)-j
 		plist.append(row)
-		
-	#normalizes data
-	for i in range(len(plist)):
-		norm = sum(plist[i])
-		for j in range(len(plist[i])):
-			plist[i][j] /= norm
+	
+	array = []
+#	normalizes data	in plist
+	#~ for i in range(len(plist)):
+		#~ array = plist
+		#~ norm = sum(array[i])
+		#~ for j in range(len(array[i])):
+			#~ array[i][j] /= norm
 
 	#gets Z value
 	zline = findline('INPUT CARD NO.  4', out_file) -1
@@ -93,60 +99,86 @@ for File in os.listdir('cascade_outputs/'):
 	a = content[var].split()[7]
 	b = list(a)
 	element = b[-3] + b[-2]
-	#print('element = ' + element)
+	#~ print('element = ' + element)
 
-	# creates new file with population values
-	# newfile = open('output_files/' + filename + '.txt', 'w+')
-	# newfile.write(element + ' Z = ' + zvalue)
-	# newfile.write('\n')
+	#creates new file with population values
+	#newfile = open('test_output_files/' + filename + '.txt', 'w+')
+	#newfile.write(element + ' Z = ' + zvalue)
+	#newfile.write('\n')
 
-	# n = maxnvalue
-	# for i in plist:
-	# 	l = 0
-	# 	newfile.write('n = ')
-	# 	newfile.write(str(n) + ':')
-	# 	newfile.write('\n')
-	# 	for j in i:
-	# 		newfile.write('l = ')
-	# 		newfile.write(str(l))
-	# 		newfile.write(' population = ')
-	# 		newfile.write('{:e}'.format(j))
-	# 		newfile.write('\n')
-	# 		l += 1
-			
-	# 	n -= 1
+	#n = maxnvalue
+	#for i in plist:
+		#l = 0
+	#	newfile.write('n = ')
+	#	newfile.write(str(n) + ':')
+	#	newfile.write('\n')
+	#	for j in i:
+	#		newfile.write('l = ')
+	#		newfile.write(str(l))
+	#		newfile.write(' population = ')
+	#		newfile.write('{:e}'.format(j))
+	#		newfile.write('\n')
+	#		l += 1
+	#		
+	#	n -= 1
 
-	# newfile.close()
+	#newfile.close()
+	
+	#~ for i in range(len(plist)):
+		#~ print(sum(plist[i]))
+		
+	#~ print(File)
 
 	l = maxnvalue*[i for i in range(maxnvalue)]
 	n = []
 	for i in range(1,maxnvalue+1):
 		for j in range(maxnvalue):
 			n.append(maxnvalue+1-i)
-
-	# print(l)
-	# print(n)
-
+			
+	#~ print(l)
+	#~ print(n)
+	
 	weights = []
-
+	
 	for arr in plist:
 		count = 0
 		while count < maxnvalue:
 			if count >= len(arr):
 				weights.append(0)
-
+				
 			else:
 				weights.append(arr[count])
-
+				
 			count += 1
-
-	# print(weights)
-
+	#~ print(weights)
+	print_weights = [round(x, 2) for x in weights]
+	
+	nticks = np.arange(1, maxnvalue+1, 2)	
+	lticks = np.arange(0, maxnvalue-1, 2)
+	
+	if File.startswith('stat'):
+		title = 'Muon capture ' + element + ' cascade'
+		
+	else:
+		title = 'Muon transfer ' + element + ' cascade'
+	
 	plt.clf()
+	
+	count = 0
+	for i in range(len(n)):
+		if print_weights[count] != 0:
+			plt.text(l[i]+0.5, n[i]+0.5, print_weights[count], fontsize = 'xx-small', color="w", ha="center", va="center", fontweight="bold")
+		count += 1
+	
 	plt.hist2d(l,n, bins = maxnvalue, weights = weights)
-	plt.title('Muonic ' + filename + ' cascade')
+	plt.title(title + ' full shell')
 	plt.xlabel('l')
 	plt.ylabel('n')
+	#~ plt.xticks(lticks)
+	#~ plt.yticks(nticks)
 	plt.colorbar()
-	plt.savefig('plots/cascades/' + filename + '_cascade_plot.png')
-	plt.show()
+	plt.savefig('plots/cascades/printed_values/full_shell/' + filename + '_full_shell_cascade_plot.png')
+	#~ plt.show()
+	
+	#~ print(title)
+
